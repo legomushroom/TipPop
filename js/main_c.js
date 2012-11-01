@@ -23,7 +23,6 @@
     },
     o: {
       init: function() {
-        console.log(main.m.debug);
         main.makeProfile('init');
         main.v.console('init ok');
         main.v.console('init warning', 'warning');
@@ -64,7 +63,6 @@
         $('div#buttons').on('click', '#button', function() {
           var $this;
           $this = $(this);
-          console.log($this.index());
           switch ($this.index()) {
             case 0:
               return $('input').animate({
@@ -112,16 +110,8 @@
         return main.makeProfileEnd('listen');
       }
     },
-    makeProfile: function(name, type) {
-      console["group" + (type || '')](name);
-      console.profile(name);
-      return console.time("" + name + " takes");
-    },
-    makeProfileEnd: function(name) {
-      console.timeEnd("" + name + " takes");
-      console.profileEnd(name);
-      return console.groupEnd(name);
-    }
+    makeProfile: function(name, type) {},
+    makeProfileEnd: function(name) {}
   };
 
   main.o.init();

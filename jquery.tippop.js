@@ -7,12 +7,10 @@
     $parent = this;
     methods = {
       destroy: function() {
-        console.log('destroy');
         this.destroyFocus();
         return this.destroyHover();
       },
       destroyHover: function() {
-        console.log('destroyHover');
         $parent.off('mouseenter');
         $parent.off('mouseleave');
         $parent.data('hover', false);
@@ -20,7 +18,6 @@
         return main.m.settings.type = 'focus';
       },
       destroyFocus: function() {
-        console.log('destroyFocus');
         $parent.find('div#tippop_focus').each(function() {
           return $.removeData($(this).data);
         });
@@ -55,7 +52,6 @@
         init: function(options) {
           var defaults;
           if (options == null) options = {};
-          console.log('init');
           defaults = {
             hoverPosition: 'best',
             focusPosition: 'best',
@@ -151,7 +147,6 @@
               break;
             case 'top':
               norm = main.o.getNormalize(opt.$elem, opt.type);
-              console.log(norm.normH);
               norm.normTipPop.addClass('top').css({
                 top: fixedNormalizeY - norm.normH - main.m.settings.offset - 4,
                 left: opt.$elem.offset().left + (opt.$elem.outerWidth() / 2) - (norm.normW / 2) - 5
@@ -159,7 +154,6 @@
               break;
             case 'bottom':
               norm = main.o.getNormalize(opt.$elem, opt.type);
-              console.log(norm.normH);
               norm.normTipPop.addClass('bottom').css({
                 top: fixedNormalizeY + opt.$elem.outerHeight() + main.m.settings.offset,
                 left: opt.$elem.offset().left + (opt.$elem.outerWidth() / 2) - (norm.normW / 2) - 5
@@ -256,7 +250,6 @@
         focusInEvent: function() {
           var $this, fixed,
             _this = this;
-          console.time("focusInEvent takes");
           $this = $(this);
           main.m.state.tryPositionCount = 0;
           main.m.settings.$tipPop.stop().fadeOut(0, main.m.settings.hoverOnHide);
@@ -281,7 +274,7 @@
               positionType: fixed,
               $parent: $parent
             });
-            $this.on('focusout', function() {
+            return $this.on('focusout', function() {
               $this.attr('data-focus', main.m.state.focusText);
               $this.$el.stop().fadeOut(0, main.m.settings.focusOnHide);
               return $this.data({
@@ -289,9 +282,8 @@
               });
             });
           } else {
-            $this.$el.stop().fadeOut(0, main.m.settings.focusOnHide);
+            return $this.$el.stop().fadeOut(0, main.m.settings.focusOnHide);
           }
-          return console.timeEnd("focusInEvent takes");
         },
         mouseLeaveEvent: function() {
           var $this;
@@ -303,7 +295,6 @@
         },
         mouseEnterEvent: function() {
           var $this, fixed, skip;
-          console.time('mouseEnterEvent takes');
           $this = $(this);
           if (!($this.data().allowPopOnHover != null)) {
             $this.data({
@@ -333,12 +324,11 @@
                 positionType: fixed,
                 $parent: $parent
               });
-              $this.on('mouseleave', main.e.mouseLeaveEvent);
+              return $this.on('mouseleave', main.e.mouseLeaveEvent);
             } else {
-              main.m.settings.$tipPop.hide();
+              return main.m.settings.$tipPop.hide();
             }
           }
-          return console.timeEnd('mouseEnterEvent takes');
         }
       }
     };
