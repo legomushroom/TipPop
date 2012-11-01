@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title id="main_title">TipPop JQuery Tooltip Plugin</title>
+        <!--:::-->
+        <meta id="description" name="description" content="TipPop JQuery Tooltip Plugin. Simple and smart. Takes care of all your hover and focus tooltips." />
+        <!--:::-->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="icons/favicon.png" type="image/x-icon"/>
+		<!-- css -->
+        <link rel="stylesheet" href="css/main.css" type="text/css" media="screen"/>
+        <link rel="stylesheet" href="tippop.min.css" type="text/css" media="screen"/>
+		<!-- end css -->
+        <meta http-equiv="Content-Language" content="en" />
+    </head>
+
+    <body>
+
+        <a id="lego" href="http://legomushroom.com" title="Lego Mushroom">lego m</a>
+        <a id="example" href="#" title="look what I can">back</a>
+        <a id="download1" href="#" title="1.5Kb gzipped">download</a>
+        <a id="fork1" href="#" title=" Git me!" data-skip='true' >fork</a>
+          
+        <div id="buttons">
+            <div id="button" title="move top">top</div>
+            <div id="button" title="move bottom">bottom</div>
+            <div id="button" title="move left">left</div>
+            <div id="button" title="move right">right</div>
+            <div id="button" title="centerize">center</div>
+            <div id="button" title="fix/unfix position">fix</div>
+        </div>
+
+         <h3>TipPop automaticly finds best availible position for tooltip. Move input by pressing buttons and then hover or click it to test. Works with fixed elements.</h3>
+
+        <input type="text" placeholder="hover or type"  title="I'm a simple tooltip" data-focus="I'm a focus text" />
+
+      
+
+
+        <div id="debug">
+            <div id="notification_wrap"></div>
+            <div id="console"></div>    
+        </div>
+		<!-- js -->
+        <!-- Jasmine -->
+        <link rel="stylesheet" type="text/css" href="js/jasmine/lib/jasmine.css">
+        <script type="text/javascript" src="js/jasmine/lib/jasmine.js"></script>
+        <script type="text/javascript" src="js/jasmine/lib/jasmine-html.js"></script>
+
+        <!-- include spec files here... -->
+        <script type="text/javascript" src="js/jasmine/spec/mainSpec.js"></script>
+        <script type="text/javascript" src="js/lib/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="js/jasmine/lib/jasmine-jquery.js"></script>
+
+        <!-- include source files here... -->
+        <script type="text/javascript" src="jquery.tippop.js"></script>
+        <script type="text/javascript" src="js/main_c.js"></script>
+        <script type="text/javascript">
+
+            (function(){
+
+                $('body').tipPop();
+
+            })();
+            
+
+        </script>
+
+<!-- liveReload -->
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+
+    </body>
+</html>

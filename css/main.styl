@@ -1,0 +1,223 @@
+// VARS
+
+noty_ok 		= rgba(0,200,0,.95);
+noty_warning 	= rgba(0,200,200,.95);
+noty_alert 		= rgba(200,0,0,.95);
+
+// VARS
+
+@import "assets/reset.styl"
+
+body{
+	height:2000px
+	background-color:#f
+}
+
+
+h1,h2,h3{
+	clear:both
+	margin-top:140px
+	width:60%
+	margin: 120px auto
+	margin-bottom:80px
+	text-align:left
+	line-height:2em
+	font-size:1.5em
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white,0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
+}
+
+input{
+	position:absolute
+	width:200px
+	display:block
+	height:40px
+	border:2px solid white
+	background-color: white
+	border-radius:4px
+	font-size:24px
+	padding:2px 10px
+	font-family:monospace
+    box-shadow: inset 0 0 4px #bbb,0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
+}
+
+div#buttons{
+	width: 60%
+	margin: 100px auto
+
+	div#button{
+		background-color:white
+		display:block
+		margin:	20px
+		height:40px
+		width:100px
+		box-shadow:0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
+		color:#555
+		border:1px solid white
+		font-family:monospace
+		border-radius:4px
+		font-size:20px
+		cursor:pointer
+		text-align:center
+		line-height:40px
+		float: left
+	}
+}
+
+a#lego,a#example,
+a#download1,a#fork1,
+a#download,a#fork{
+	position:fixed
+	z-index:20
+	top:-4px
+	width:70px
+	height:16px
+	background-color:noty_warning
+	border-radius:2px
+	box-shadow: 0 0 5px black
+	padding: 6px 10px
+	border:2px solid white;
+	border-radius:4px
+	font-size:14px
+	font-family:monospace
+	text-align:center
+	text-decoration:none
+	color:white
+    box-shadow:0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
+
+	a{
+		text-shadow:0 -1px 0 #999
+		text-decoration:none
+		font-size:14px
+		color: white
+	}
+}
+
+a#download,a#fork{
+	position:static
+	display:block
+	color:white
+	text-decoration:none
+	padding:.5em .7em
+	line-height:1em
+	font-size:1em
+	width:5em
+	text-shadow: 0 -1px 0px #999
+	margin:100px 0
+}
+
+a#download{
+	// margin:100px auto 0 auto
+	float:left
+	margin-left:25%
+	background-color:noty_ok
+}
+
+a#fork{
+	float:right
+	margin-right:25%
+	background-color:purple
+	text-shadow: 0 -1px 0px #111
+
+}
+
+// a#fork{}
+
+a#example{
+	right:240px
+	background-color:orange
+
+}
+a#download1{
+	right:130px
+	background-color:noty_ok
+}
+a#fork1{
+	right:20px
+	background-color:purple
+}
+
+a#lego{
+	left:20px
+}
+
+div#debug{
+	display:none
+	position:absolute
+	right:0
+	height:100%
+
+	div#console{
+		display:none
+		width:140px;
+		height:200px;
+		position:relative;
+		top:0;
+		right:0;
+		padding: 10px;
+		font-family:'Consolas';
+		background-color:rgba(255,255,255,.4);
+		border-bottom-left-radius:5px;
+		overflow:auto
+
+		p{
+			font-size:12px;
+			margin:10px 0;
+			text-align:left;
+
+			&.ok{
+				color:green;
+			}
+
+			&.warning{
+				color:orange;
+			}
+
+			&.alert{
+				color:red;
+			}
+		}
+	}
+
+	div#notification_wrap{
+		position:fixed
+		right:14px;
+		bottom:10px;
+		width:200px;
+		min-height:50px;
+		z-index:20
+
+		//notifications
+		div#noty{
+			width:100%;
+			min-height:40px;
+			border:2px solid white;
+			border-radius:5px;
+			text-align:center;
+			padding:6px 10px;
+			box-sizing:border-box;
+			color:white;	
+			text-shadow: 0 0 4px rgba(0,0,0,.8)
+			cursor:pointer
+			margin:10px
+			display:none
+			box-shadow:0 0 10px rgba(0,0,0,.8), inset 0 0 2px black
+			transition: bottom .5s linear
+			text-shadow: 0 -1px 1px green
+			cursor:pointer
+			margin:10px
+			display:none
+			box-shadow:0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
+			transition: bottom .5s linear
+
+			&.ok{
+				background-color:noty_ok !important;
+			}
+			&.alert{
+				background-color:noty_alert !important;
+			}
+			&.warning{
+				background-color:noty_warning !important;
+			}
+		}
+	}
+}

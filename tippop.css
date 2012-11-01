@@ -1,0 +1,75 @@
+div#tippop,
+div#tippop_focus {
+  position: absolute;
+  z-index: 10000;
+  display: none;
+  border-radius: 2px;
+  background-color: rgba(255,255,255,0.70);
+  background-color: #fff;
+  padding: 0.75em 1em;
+  color: #333;
+  text-align: left;
+  box-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,0.10), 0 0 5px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.30), 0 3px 5px rgba(0,0,0,0.20), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.20), 0 20px 20px rgba(0,0,0,0.15);
+  text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff, 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,0.10), 0 0 5px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.30), 0 3px 5px rgba(0,0,0,0.20), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.20), 0 20px 20px rgba(0,0,0,0.15);
+  cursor: default;
+  max-width: 200px;
+  border-radius: 4px;
+  line-height: 1.2em;
+}
+div#tippop_focus {
+  background-color: #ffa500;
+  border: 2px solid #fff;
+  color: #fff;
+  text-shadow: 0 -1px 0 #aaa;
+}
+div#tippop.left:before,
+div#tippop.right:before,
+div#tippop.top:before,
+div#tippop.bottom:before,
+div#tippop_focus.left:before,
+div#tippop_focus.right:before,
+div#tippop_focus.top:before,
+div#tippop_focus.bottom:before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-right: 5px solid transparent;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid transparent;
+}
+div#tippop.left:before,
+div#tippop_focus.left:before {
+  top: 48%;
+  left: 100%;
+  border-left: 5px solid #000;
+}
+div#tippop_focus.left:before {
+  border-left: 5px solid #fff;
+}
+div#tippop.right:before,
+div#tippop_focus.right:before {
+  top: 50%;
+  left: -10px;
+  border-right: 5px solid #000;
+}
+div#tippop_focus.right:before {
+  border-right: 5px solid #fff;
+  left: -11px;
+}
+div#tippop.top:before,
+div#tippop_focus.top:before {
+  bottom: -13px;
+  left: 50%;
+  border-top: 5px solid #000;
+}
+div#tippop.bottom:before,
+div#tippop_focus.bottom:before {
+  top: -10px;
+  left: 50%;
+  border-bottom: 5px solid #000;
+}
+div#tippop_focus.bottom:before {
+  top: -12px;
+}
