@@ -6,12 +6,10 @@ $::tipPop = ( options = {} )->
 	methods = 
 
 		destroy: ()->
-			console.log 'destroy'
 			@destroyFocus()
 			@destroyHover()
 
 		destroyHover: ()->
-			console.log 'destroyHover'
 			$parent.off 'mouseenter'
 			$parent.off 'mouseleave'
 			$parent.data 'hover', false
@@ -20,8 +18,6 @@ $::tipPop = ( options = {} )->
 			main.m.settings.type = 'focus'
 
 		destroyFocus: ()->
-			console.log 'destroyFocus'
-			
 			$parent.find('div#tippop_focus').each (  )->
 				$.removeData $(@).data
 
@@ -71,8 +67,6 @@ $::tipPop = ( options = {} )->
 		o:
 			# initialization
 			init: ( options = {} )=>
-
-				console.log 'init'
 
 				# plugin defaults
 				defaults = 
@@ -228,7 +222,6 @@ $::tipPop = ( options = {} )->
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						console.log norm.normH
 						norm.normTipPop.addClass('top')
 						# positioning tipPop
 						.css
@@ -242,7 +235,6 @@ $::tipPop = ( options = {} )->
 					when 'bottom'
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
-						console.log norm.normH
 						
 						# positioning tipPop arrow
 						norm.normTipPop.addClass('bottom')
@@ -362,7 +354,7 @@ $::tipPop = ( options = {} )->
 
 			focusInEvent:( )->
 
-				console.time "focusInEvent takes"
+				# console.time "focusInEvent takes"
 
 				$this = $ this
 
@@ -414,7 +406,7 @@ $::tipPop = ( options = {} )->
 
 				else $this.$el.stop().fadeOut(0, main.m.settings.focusOnHide )
 			
-				console.timeEnd ("focusInEvent takes")
+				# console.timeEnd ("focusInEvent takes")
 
 
 			mouseLeaveEvent:( )->
@@ -429,7 +421,7 @@ $::tipPop = ( options = {} )->
 
 			mouseEnterEvent:()->
 
-					console.time 'mouseEnterEvent takes'
+					# console.time 'mouseEnterEvent takes'
 
 					$this = $ this
 
@@ -492,7 +484,7 @@ $::tipPop = ( options = {} )->
 
 						else main.m.settings.$tipPop.hide()
 					
-					console.timeEnd 'mouseEnterEvent takes'
+					# console.timeEnd 'mouseEnterEvent takes'
 	
 	# what was passed as a parameter?
 	switch typeof options
