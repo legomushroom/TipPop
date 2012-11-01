@@ -1,4 +1,4 @@
 TipPop
 ======
 
-TipPop Jquery tooltip plugin
+TipPop JQuery tooltip plugin
