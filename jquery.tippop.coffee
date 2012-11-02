@@ -1,3 +1,8 @@
+`
+/*! Copyright (C) 2012 Solomka Oleg, http://legomushroom.com/
+/*  https://github.com/sol0mka/TipPop
+*/
+`
 
 $::tipPop = ( options = {} )->
 
@@ -48,7 +53,7 @@ $::tipPop = ( options = {} )->
 				# parentElement
 				$that 	: ''
 				# offset from init element
-				offset 	: 0 
+				offset 	: 0
 				# body
 				$body 	: $('body')
 				# window
@@ -79,7 +84,7 @@ $::tipPop = ( options = {} )->
 					# delay before fadeOut
 					delay 	: 2000
 					# offset from init element
-					offset 	: 8
+					offset 	: 15
 					# position priority
 					# for hover event
 					hoverPriority : [ 'top', 'bottom', 'left', 'right' ]
@@ -157,14 +162,14 @@ $::tipPop = ( options = {} )->
 
 					normalizeTipPop = $this.$el.attr 'class', ''
 
-					normalizeW = $this.$el.outerWidth()
-					normalizeH = $this.$el.outerHeight()
+					normalizeW = $this.$el.outerWidth() - ( ( $this.$el.outerWidth() - $this.$el.width() )/4 )
+					normalizeH = $this.$el.outerHeight() - ( ( $this.$el.outerHeight() - $this.$el.height() )/4 )
 
 				else 
 					normalizeTipPop = main.m.settings.$tipPop.attr 'class', ''
 
-					normalizeW = main.m.settings.$tipPop.outerWidth()
-					normalizeH = main.m.settings.$tipPop.outerHeight()
+					normalizeW = main.m.settings.$tipPop.outerWidth()  - ( ( main.m.settings.$tipPop.outerWidth() - main.m.settings.$tipPop.width() )/4 )
+					normalizeH = main.m.settings.$tipPop.outerHeight() - ( ( main.m.settings.$tipPop.outerHeight() - main.m.settings.$tipPop.height() )/4 )
 
 				{ normH : normalizeH, normW: normalizeW, normTipPop: normalizeTipPop}
 

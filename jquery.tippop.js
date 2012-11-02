@@ -1,5 +1,9 @@
 (function() {
-
+  
+/*! Copyright (C) 2012 Solomka Oleg, http://legomushroom.com/
+/*  https://github.com/sol0mka/TipPop
+*/
+;
   $.prototype.tipPop = function(options) {
     var $parent, main, methods,
       _this = this;
@@ -57,7 +61,7 @@
             focusPosition: 'best',
             type: 'all',
             delay: 2000,
-            offset: 8,
+            offset: 15,
             hoverPriority: ['top', 'bottom', 'left', 'right'],
             focusPriority: ['left', 'right', 'bottom', 'top']
           };
@@ -104,12 +108,12 @@
           normalizeTipPop = '';
           if (type === 'focus') {
             normalizeTipPop = $this.$el.attr('class', '');
-            normalizeW = $this.$el.outerWidth();
-            normalizeH = $this.$el.outerHeight();
+            normalizeW = $this.$el.outerWidth() - (($this.$el.outerWidth() - $this.$el.width()) / 4);
+            normalizeH = $this.$el.outerHeight() - (($this.$el.outerHeight() - $this.$el.height()) / 4);
           } else {
             normalizeTipPop = main.m.settings.$tipPop.attr('class', '');
-            normalizeW = main.m.settings.$tipPop.outerWidth();
-            normalizeH = main.m.settings.$tipPop.outerHeight();
+            normalizeW = main.m.settings.$tipPop.outerWidth() - ((main.m.settings.$tipPop.outerWidth() - main.m.settings.$tipPop.width()) / 4);
+            normalizeH = main.m.settings.$tipPop.outerHeight() - ((main.m.settings.$tipPop.outerHeight() - main.m.settings.$tipPop.height()) / 4);
           }
           return {
             normH: normalizeH,
