@@ -38,14 +38,14 @@ div#tippop.left:before,div#tippop.right:before,div#tippop.top:before,div#tippop.
 div#tippop.left:before,div#tippop_focus.left:before {
   top: 48%;
   right:-11px;
-  border-left: 5px solid #fff;
+  border-left: 5px solid #000;
 }
 
 
 div#tippop.right:before,div#tippop_focus.right:before {
   top: 50%;
   left: -11px;
-  border-right: 5px solid #fff;
+  border-right: 5px solid #000;
 }
 
 
@@ -58,5 +58,5 @@ div#tippop.top:before,div#tippop_focus.top:before {
 div#tippop.bottom:before,div#tippop_focus.bottom:before {
   top: -12px;
   left: 50%;
-  border-bottom: 5px solid #fff;
+  border-bottom: 5px solid #000;
 }
