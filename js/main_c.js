@@ -13,7 +13,10 @@
       debug: {},
       settings: {
         console: $('div#console'),
-        $notification: $('div#notification_wrap')
+        $notification: $('div#notification_wrap'),
+        $input: $('input'),
+        $window: $(window),
+        $select: $('select')
       },
       state: {},
       fetchPosts: function() {
@@ -28,7 +31,7 @@
         main.v.console('init warning', 'warning');
         main.v.console('init alert', 'alert');
         main.e.listen();
-        $('div#button').eq(4).trigger('click');
+        $('div#button').eq(0).trigger('click');
         main.v.showNoty('alert', 'alert', 6000);
         main.v.showNoty('warning', 'warning', 6000);
         main.v.showNoty('ok', 'ok', 6000);
@@ -60,40 +63,91 @@
     e: {
       listen: function() {
         main.makeProfile('listen', 'Collapsed');
+        main.m.settings.$window.on('keydown', function(e) {
+          if (e.altKey) {
+            e.preventDefault();
+            switch (e.keyCode) {
+              case 37:
+                return main.m.settings.$input.stop(true, false).animate({
+                  'left': '-=20'
+                });
+              case 38:
+                return main.m.settings.$input.stop(true, false).animate({
+                  'top': '-=20'
+                });
+              case 39:
+                return main.m.settings.$input.stop(true, false).animate({
+                  'left': '+=20'
+                });
+              case 40:
+                return main.m.settings.$input.stop(true, false).animate({
+                  'top': '+=20'
+                });
+            }
+          }
+        });
+        main.m.settings.$select.on('change', function() {
+          var $this;
+          $this = $(this);
+          console.log($this.find(':selected').index());
+          switch ($this.find(':selected').index()) {
+            case 1:
+              return main.m.settings.$input.animate({
+                'top': '20'
+              });
+            case 2:
+              return main.m.settings.$input.animate({
+                'top': main.m.settings.$window.outerHeight() - main.m.settings.$input.outerHeight() - 20
+              });
+            case 3:
+              return main.m.settings.$input.animate({
+                'left': '20'
+              });
+            case 4:
+              return main.m.settings.$input.animate({
+                'left': main.m.settings.$window.outerWidth() - main.m.settings.$input.outerWidth() - 20
+              });
+            case 5:
+              return main.m.settings.$input.animate({
+                'top': -(main.m.settings.$input.outerHeight() / 2),
+                'left': -(main.m.settings.$input.outerWidth() / 2)
+              });
+            case 6:
+              return main.m.settings.$input.animate({
+                'top': -(main.m.settings.$input.outerHeight() / 2),
+                'left': main.m.settings.$window.outerWidth() - main.m.settings.$input.outerWidth() + (main.m.settings.$input.outerWidth() / 2)
+              });
+            case 7:
+              return main.m.settings.$input.animate({
+                'left': -main.m.settings.$input.outerWidth() / 2,
+                'top': main.m.settings.$window.outerHeight() - (main.m.settings.$input.outerHeight() / 2)
+              });
+            case 8:
+              return main.m.settings.$input.animate({
+                'top': main.m.settings.$window.outerHeight() - (main.m.settings.$input.outerHeight() / 2),
+                'left': main.m.settings.$window.outerWidth() - main.m.settings.$input.outerWidth() + (main.m.settings.$input.outerWidth() / 2)
+              });
+          }
+        });
         $('div#buttons').on('click', '#button', function() {
           var $this;
           $this = $(this);
           switch ($this.index()) {
-            case 0:
-              return $('input').animate({
-                'top': '20'
-              });
             case 1:
-              return $('input').animate({
-                'top': $(window).outerHeight() - $('input').outerHeight() - 20
+              main.m.settings.$input.animate({
+                'top': main.m.settings.$window.outerHeight() / 2 - main.m.settings.$input.outerHeight() / 2 - 20,
+                'left': main.m.settings.$window.outerWidth() / 2 - main.m.settings.$input.outerWidth() / 2 - 20
               });
+              return main.m.settings.$select.find(':selected').attr('selected', false);
             case 2:
-              return $('input').animate({
-                'left': '20'
-              });
-            case 3:
-              return $('input').animate({
-                'left': $(window).outerWidth() - $('input').outerWidth() - 20
-              });
-            case 4:
-              return $('input').animate({
-                'top': $(window).outerHeight() / 2 - $('input').outerHeight() / 2 - 20,
-                'left': $(window).outerWidth() / 2 - $('input').outerWidth() / 2 - 20
-              });
-            case 5:
               if (!$this.data().fixed || !($this.data().fixed != null)) {
-                $('input').css({
+                main.m.settings.$input.css({
                   'position': 'fixed'
                 });
                 $this.text('fixed');
                 return $this.data().fixed = true;
               } else {
-                $('input').css({
+                main.m.settings.$input.css({
                   'position': 'absolute'
                 });
                 $this.text('fix');

@@ -19,23 +19,41 @@
         <a id="lego" href="http://legomushroom.com" title="Lego Mushroom">lego m</a>
         <a id="example" href="http://legomushroom.com/tippop/" title="to plugin's page ">back</a>
         <a id="download1" href="https://github.com/sol0mka/TipPop/zipball/master" title="1.5Kb gzipped">download</a>
-        <a id="fork1" href="https://github.com/sol0mka/TipPop" title=" Git me!" data-skip='true' >fork</a>
+        <a id="fork1" href="https://github.com/sol0mka/TipPop" title="Git me on fork 0)" >fork</a>
           
         <div id="buttons">
-            <div id="button" title="move top">top</div>
+        
+        <div id="select">
+            <div id="arrow">▼</div>
+
+            <select name="" id="">
+                <option value="">select position</option>
+                <option value="move top">move top</option>
+                <option value="move bottom">move bottom</option>
+                <option value="move left">move left</option>
+                <option value="move right">move right</option>
+                <option value="move top_left">move top_left</option>
+                <option value="move top_right">move top_right</option>
+                <option value="move bottom_left">move bottom_left</option>
+                <option value="move bottom_right">move bottom_right</option>
+            </select>
+        </div>
+        
+           <!--  <div id="button" title="move top">top</div>
             <div id="button" title="move bottom">bottom</div>
             <div id="button" title="move left">left</div>
             <div id="button" title="move right">right</div>
+            <div id="button" title="move top_left">t/left</div>
+            <div id="button" title="move top_right">t/right</div>
+            <div id="button" title="move bottom_left">b/left</div>
+            <div id="button" title="move bottom_right">b/right</div> -->
             <div id="button" title="centralize">center</div>
             <div id="button" title="fix/unfix position">fix</div>
         </div>
 
-         <h3>TipPop automaticly finds best availible position for tooltip. Move input by pressing buttons and then hover or click it to test. Works with fixed elements.</h3>
+         <h3>TipPop automaticly finds best availible position for a tooltip. Move input by selecting it's position in dropdown select menu and then hover or click it to test. You can use <b>alt + arrows</b> for precise positioning. Works with fixed elements.</h3>
 
-        <input type="text" placeholder="hover or type"  title="I'm a simple tooltip" data-focus="I'm a focus text" />
-
-      
-
+        <input type="text" placeholder="hover or type"  title="I'm a simple tooltip" data-focus="I'm a focus text!" />
 
         <div id="debug">
             <div id="notification_wrap"></div>

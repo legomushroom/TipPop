@@ -62,8 +62,8 @@
             type: 'all',
             delay: 2000,
             offset: 15,
-            hoverPriority: ['top', 'bottom', 'left', 'right'],
-            focusPriority: ['left', 'right', 'bottom', 'top']
+            hoverPriority: ['top', 'bottom', 'left', 'right', 'top_left', 'top_right', 'bottom_left', 'bottom_right'],
+            focusPriority: ['left', 'right', 'bottom', 'top', 'top_left', 'top_right', 'bottom_left', 'bottom_right']
           };
           options = $.extend({}, defaults, options || {});
           main.m.settings.$tipPop = main.o.getTipPop();
@@ -80,6 +80,24 @@
           main.m.settings.positionPriority.focus = options.focusPriority;
           main.e.listen(main.m.settings.$that);
           return _this;
+        },
+        getGSidesX: function($el) {
+          var g_left, g_right;
+          g_right = main.m.settings.$tipPop.outerWidth() > $el.outerWidth() ? $el.offset().left + $el.outerWidth() + (Math.abs($el.outerWidth() - main.m.settings.$tipPop.outerWidth()) / 2) : $el.offset().left + $el.outerWidth();
+          g_left = main.m.settings.$tipPop.outerWidth() > $el.outerWidth() ? $el.offset().left - (Math.abs($el.outerWidth() - main.m.settings.$tipPop.outerWidth()) / 2) : $el.offset().left;
+          return {
+            g_right: g_right,
+            g_left: g_left
+          };
+        },
+        getGSidesY: function($el) {
+          var g_bottom, g_top;
+          g_top = ($el.offset().top + $el.outerHeight() / 2) - (main.m.settings.$tipPop.outerHeight() / 2);
+          g_bottom = ($el.offset().top + $el.outerHeight() / 2) + (main.m.settings.$tipPop.outerHeight() / 2);
+          return {
+            g_top: g_top,
+            g_bottom: g_bottom
+          };
         },
         getTipPop: function() {
           var $tipPop;
@@ -122,11 +140,13 @@
           };
         },
         makePosition: function(opt) {
-          var callback, fixedNormalize, fixedNormalizeY, i, norm;
+          var callback, fixedNormalize, fixedNormalizeY, i, norm, tip;
           if (opt.type === 'hover') {
             callback = main.m.settings.hoverOnShow;
+            tip = main.m.settings.$tipPop;
           } else {
             callback = main.m.settings.focusOnShow;
+            tip = opt.$elem.data().$el;
           }
           fixedNormalize = 0;
           if (opt.positionType === 'fixed') {
@@ -136,31 +156,67 @@
           }
           switch (opt.titlePosition) {
             case 'left':
+              console.log('---> left');
               norm = main.o.getNormalize(opt.$elem, opt.type);
-              norm.normTipPop.addClass('left').css({
+              norm.normTipPop.addClass(opt.titlePosition).css({
                 top: fixedNormalizeY + (opt.$elem.outerHeight() / 2) - (norm.normH / 2) - 5,
                 left: opt.$elem.offset().left - main.m.settings.offset - norm.normW
               }).stop(true, false).fadeIn(500, callback);
               break;
             case 'right':
+              console.log('---> right');
               norm = main.o.getNormalize(opt.$elem, opt.type);
-              norm.normTipPop.addClass('right').css({
+              norm.normTipPop.addClass(opt.titlePosition).css({
                 top: fixedNormalizeY + (opt.$elem.outerHeight() / 2) - (norm.normH / 2) - 5,
                 left: opt.$elem.offset().left + opt.$elem.outerWidth() + main.m.settings.offset
               }).stop(true, false).fadeIn(500, callback);
               break;
             case 'top':
+              console.log('---> top');
               norm = main.o.getNormalize(opt.$elem, opt.type);
-              norm.normTipPop.addClass('top').css({
+              norm.normTipPop.addClass(opt.titlePosition).css({
                 top: fixedNormalizeY - norm.normH - main.m.settings.offset - 4,
                 left: opt.$elem.offset().left + (opt.$elem.outerWidth() / 2) - (norm.normW / 2) - 5
               }).stop(true, false).fadeIn(500, callback);
               break;
-            case 'bottom':
+            case 'top_left':
+              console.log('---> top_left');
               norm = main.o.getNormalize(opt.$elem, opt.type);
-              norm.normTipPop.addClass('bottom').css({
+              norm.normTipPop.addClass(opt.titlePosition).css({
+                top: fixedNormalizeY - norm.normH - 7,
+                left: opt.$elem.offset().left - tip.outerWidth()
+              }).stop(true, false).fadeIn(500, callback);
+              break;
+            case 'top_right':
+              console.log('---> top_right');
+              norm = main.o.getNormalize(opt.$elem, opt.type);
+              norm.normTipPop.addClass(opt.titlePosition).css({
+                top: fixedNormalizeY - norm.normH - 7,
+                left: opt.$elem.offset().left + opt.$elem.outerWidth()
+              }).stop(true, false).fadeIn(500, callback);
+              break;
+            case 'bottom':
+              console.log('---> bottom');
+              norm = main.o.getNormalize(opt.$elem, opt.type);
+              norm.normTipPop.addClass(opt.titlePosition).css({
                 top: fixedNormalizeY + opt.$elem.outerHeight() + main.m.settings.offset,
                 left: opt.$elem.offset().left + (opt.$elem.outerWidth() / 2) - (norm.normW / 2) - 5
+              }).stop(true, false).fadeIn(500, callback);
+              break;
+            case 'bottom_left':
+              console.log('---> bottom_left');
+              norm = main.o.getNormalize(opt.$elem, opt.type);
+              norm.normTipPop.addClass(opt.titlePosition).css({
+                top: fixedNormalizeY + opt.$elem.outerHeight(),
+                left: opt.$elem.offset().left - tip.outerWidth()
+              }).stop(true, false).fadeIn(500, callback);
+              break;
+            case 'bottom_right':
+              console.log('---> bottom_right');
+              norm = main.o.getNormalize(opt.$elem, opt.type);
+              norm.normTipPop.addClass(opt.titlePosition).css({
+                top: fixedNormalizeY + opt.$elem.outerHeight(),
+                left: opt.$elem.offset().left + opt.$elem.outerWidth()
               }).stop(true, false).fadeIn(500, callback);
               break;
             case 'best':
@@ -192,38 +248,84 @@
           return (elemBottom >= docViewTop) && (elemTop <= docViewBottom) && (elemBottom <= docViewBottom) && (elemTop >= docViewTop);
         },
         tryPosition: {
-          left: function($this, type) {
-            var norm;
-            norm = main.o.getNormalize($this, type);
-            if ($this.offset().left - norm.normW - main.m.settings.offset > main.m.settings.$window.scrollLeft()) {
+          left: function($el, type) {
+            var g, norm;
+            console.log('try left');
+            norm = main.o.getNormalize($el, type);
+            g = main.o.getGSidesY($el);
+            if (($el.offset().left - norm.normW - main.m.settings.offset > main.m.settings.$window.scrollLeft()) && (g.g_top > main.m.settings.$window.scrollTop()) && (g.g_bottom < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight())) {
               return 'left';
             } else {
               return 'best';
             }
           },
-          right: function($this, type) {
-            var norm;
-            norm = main.o.getNormalize($this, type);
-            if ($this.offset().left + $this.outerWidth() + main.m.settings.offset + norm.normW < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth()) {
+          right: function($el, type) {
+            var g, norm;
+            console.log('try right');
+            norm = main.o.getNormalize($el, type);
+            g = main.o.getGSidesY($el);
+            if (($el.offset().left + $el.outerWidth() + main.m.settings.offset + norm.normW < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth()) && (g.g_top > main.m.settings.$window.scrollTop()) && (g.g_bottom < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight())) {
               return 'right';
             } else {
               return 'best';
             }
           },
           top: function($this, type) {
-            var norm;
+            var g, norm;
+            console.log('try top');
             norm = main.o.getNormalize($this, type);
-            if ($this.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop()) {
+            g = main.o.getGSidesX($this);
+            if (($this.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop()) && (g.g_left > main.m.settings.$window.scrollLeft()) && (g.g_right < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth())) {
               return 'top';
             } else {
               return 'best';
             }
           },
+          top_left: function($el, type) {
+            var g, norm;
+            console.log('try top left');
+            norm = main.o.getNormalize($el, type);
+            g = main.o.getGSidesX($el);
+            if (($el.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop()) && ($el.offset().left - main.m.settings.$tipPop.outerWidth() > main.m.settings.$window.scrollLeft())) {
+              return 'top_left';
+            } else {
+              return 'best';
+            }
+          },
+          top_right: function($el, type) {
+            var g, norm;
+            console.log('try top right');
+            norm = main.o.getNormalize($el, type);
+            g = main.o.getGSidesX($el);
+            if (($el.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop()) && ($el.offset().left + $el.outerWidth() + main.m.settings.$tipPop.outerWidth() > main.m.settings.$window.scrollLeft())) {
+              return 'top_right';
+            } else {
+              return 'best';
+            }
+          },
           bottom: function($this, type) {
-            var norm;
+            var g, norm;
+            console.log('try bottom');
             norm = main.o.getNormalize($this, type);
-            if ($this.offset().top + $this.outerHeight() + norm.normH - 10 + main.m.settings.offset < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight()) {
+            g = main.o.getGSidesX($this);
+            if ($this.offset().top + $this.outerHeight() + norm.normH - 10 + main.m.settings.offset < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight() && (g.g_left > main.m.settings.$window.scrollLeft()) && (g.g_right < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth())) {
               return 'bottom';
+            } else {
+              return 'best';
+            }
+          },
+          bottom_left: function($el, type) {
+            console.log('try bottom_left');
+            if (($el.offset().top + $el.outerHeight() + main.m.settings.offset + main.m.settings.$tipPop.outerHeight()) < (main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight()) && ($el.offset().left - main.m.settings.$tipPop.outerWidth() > main.m.settings.$window.scrollLeft())) {
+              return 'bottom_left';
+            } else {
+              return 'best';
+            }
+          },
+          bottom_right: function($el, type) {
+            console.log('try bottom_right');
+            if (($el.offset().top + $el.outerHeight() + main.m.settings.offset + main.m.settings.$tipPop.outerHeight()) < (main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight()) && ($el.offset().left + $el.offset().left < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth())) {
+              return 'bottom_right';
             } else {
               return 'best';
             }
@@ -311,9 +413,7 @@
             main.m.state.tryPositionCount = 0;
             if ($this.attr('title') != null) {
               $this.data('titleText', $this.attr('title'));
-              main.m.settings.$tipPop.text($this.data().titleText).css({
-                'height': main.m.settings.$tipPop.height()
-              });
+              main.m.settings.$tipPop.text($this.data().titleText);
               $parent = $this.parent();
               fixed = $this.css('position');
               if (fixed === 'static') fixed = 'absolute';

@@ -15,7 +15,7 @@ div#tippop,div#tippop_focus {
   cursor: default;
   max-width: 200px;
   padding: .5em .75em;
-  text-align: left;
+  text-align: center;
   line-height: 1.2em;
   font-family: monospace;
 }
@@ -37,14 +37,14 @@ div#tippop.left:before,div#tippop.right:before,div#tippop.top:before,div#tippop.
 
 div#tippop.left:before,div#tippop_focus.left:before {
   top: 48%;
-  right:-11px;
+  right:-12px;
   border-left: 5px solid #000;
 }
 
 
 div#tippop.right:before,div#tippop_focus.right:before {
   top: 50%;
-  left: -11px;
+  left: -12px;
   border-right: 5px solid #000;
 }
 

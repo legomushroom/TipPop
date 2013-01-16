@@ -17,6 +17,9 @@ window.main = {
 		settings:
 			console 			: $('div#console')			# console container
 			$notification 		: $('div#notification_wrap')# notification container
+			$input 				: $('input') 				# input in JQ
+			$window 			: $(window) 				# window wrapped in JQ
+			$select 			: $('select') 				# select wrapped in JQ
 		
 		#current state of main class
 		state:{}
@@ -40,7 +43,7 @@ window.main = {
 			#listen to global events
 			main.e.listen()
 
-			$('div#button').eq(4).trigger 'click'
+			$('div#button').eq(0).trigger 'click'
 
 			main.v.showNoty 'alert', 'alert', 6000
 			main.v.showNoty 'warning', 'warning', 6000
@@ -89,36 +92,91 @@ window.main = {
 			main.makeProfile 		'listen','Collapsed'
 			#----------body------------
 
+			main.m.settings.$window.on 'keydown',(e)->
+				
+				if e.altKey
+
+					e.preventDefault()
+
+					switch e.keyCode
+
+						when 37
+
+							main.m.settings.$input.stop(true,false).animate 'left' : '-=20'
+
+						when 38
+
+							main.m.settings.$input.stop(true,false).animate 'top' : '-=20'
+
+						when 39
+
+							main.m.settings.$input.stop(true,false).animate 'left' : '+=20'
+
+						when 40
+
+							main.m.settings.$input.stop(true,false).animate 'top' : '+=20'
+
+
+			main.m.settings.$select.on 'change',()->
+				$this = $(@)
+				console.log $this.find(':selected').index()
+
+				switch $this.find(':selected').index()
+
+					when 1
+							main.m.settings.$input.animate 'top' : '20'
+
+					when 2
+						main.m.settings.$input.animate 'top' : main.m.settings.$window.outerHeight() - main.m.settings.$input.outerHeight() - 20
+
+					when 3
+						main.m.settings.$input.animate 'left' : '20'
+
+					when 4
+						main.m.settings.$input.animate 'left' : main.m.settings.$window.outerWidth() - main.m.settings.$input.outerWidth() - 20
+
+					when 5
+						main.m.settings.$input.animate 
+
+											'top'  : - ( main.m.settings.$input.outerHeight()/2)
+											'left' : - (main.m.settings.$input.outerWidth()/2)
+
+					when 6
+						main.m.settings.$input.animate 
+											'top'  : - ( main.m.settings.$input.outerHeight()/2)
+											'left' : main.m.settings.$window.outerWidth() - main.m.settings.$input.outerWidth() + (main.m.settings.$input.outerWidth()/2)
+
+					when 7
+						main.m.settings.$input.animate 
+											'left' : - main.m.settings.$input.outerWidth()/2
+											'top'  : main.m.settings.$window.outerHeight() - ( main.m.settings.$input.outerHeight()/2)
+
+					when 8
+						main.m.settings.$input.animate 
+											'top'  : main.m.settings.$window.outerHeight() - ( main.m.settings.$input.outerHeight()/2)
+											'left' : main.m.settings.$window.outerWidth() - main.m.settings.$input.outerWidth() + (main.m.settings.$input.outerWidth()/2)
+
+
 			$('div#buttons').on 'click', '#button', ()->
 
 				$this = $ @
 				
 				switch $this.index()
 					
-					when 0
-						$('input').animate 'top' : '20'
-
 					when 1
-						$('input').animate 'top' : $(window).outerHeight() - $('input').outerHeight() - 20
+						main.m.settings.$input.animate 
 
-					when 2
-						$('input').animate 'left' : '20'
+									'top' : main.m.settings.$window.outerHeight()/2 - main.m.settings.$input.outerHeight()/2 - 20
 
-					when 3
-						$('input').animate 'left' : $(window).outerWidth() - $('input').outerWidth() - 20
+									'left' : main.m.settings.$window.outerWidth()/2 - main.m.settings.$input.outerWidth()/2 - 20
 
-					when 4
-						$('input').animate 
+						main.m.settings.$select.find(':selected').attr 'selected', false
 
-									'top' : $(window).outerHeight()/2 - $('input').outerHeight()/2 - 20
-
-									'left' : $(window).outerWidth()/2 - $('input').outerWidth()/2 - 20
-
-					when 5 
+					when 2 
 
 						if !$this.data().fixed || !$this.data().fixed?
 
-							$('input').css 'position' : 'fixed'
+							main.m.settings.$input.css 'position' : 'fixed'
 
 							$this.text 'fixed'
 
@@ -126,7 +184,7 @@ window.main = {
 
 						else
 
-							$('input').css 'position' : 'absolute'
+							main.m.settings.$input.css 'position' : 'absolute'
 
 							$this.text 'fix'
 

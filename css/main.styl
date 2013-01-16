@@ -11,6 +11,7 @@ noty_alert 		= rgba(200,0,0,.95);
 body{
 	height:2000px
 	background-color:#f
+	overflow-x:hidden
 }
 
 
@@ -26,28 +27,67 @@ h1,h2,h3{
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white,0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
 }
 
+b{
+	background-color:#ccc
+	padding:4px 10px 8px 10px
+	border-radius:10px
+}
+
 input{
 	position:absolute
 	width:200px
 	display:block
 	height:40px
-	border:2px solid white
+	border:2px solid pink
 	background-color: white
 	border-radius:4px
 	font-size:24px
 	padding:2px 10px
 	font-family:monospace
+    -webkit-box-shadow: inset 0 0 4px #bbb,0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
     box-shadow: inset 0 0 4px #bbb,0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
 }
 
 div#buttons{
-	width: 60%
-	margin: 100px auto
+	width: 50%
+	margin: 40px auto
+
+	div#select{
+		float:left
+		
+		select{
+			background: transparent
+			border-radius: 5px;
+			-webkit-box-shadow: inset 0 1px 4px hsla(0,0%,0%,.1),inset 0 0 10px hsla(0,0%,0%,.1),0 0 0 1px hsla(0,0%,0%,.1),0 -1px 2px 1px hsla(0,0%,0%,.25),0 2px 2px 1px hsla(0,0%,100%,.5),0 -2px 10px 2px hsla(0,0%,100%,.75),0 2px 10px 2px hsla(0,0%,0%,.25);
+			box-shadow: inset 0 1px 4px hsla(0,0%,0%,.1),inset 0 0 10px hsla(0,0%,0%,.1),0 0 0 1px hsla(0,0%,0%,.1),0 -1px 2px 1px hsla(0,0%,0%,.25),0 2px 2px 1px hsla(0,0%,100%,.5),0 -2px 10px 2px hsla(0,0%,100%,.75),0 2px 10px 2px hsla(0,0%,0%,.25);
+			cursor: pointer;
+			border: 0;
+			width: 228px;
+			padding: 10px 15px;
+			font: 13px/20px monospace
+			color: #555;
+			margin-top: 14px;
+			margin-left: -6px;
+			-webkit-appearance: none;
+			appearance: none;
+		}
+
+		div#arrow{
+			position:relative
+			z-index: 20
+			left: 196px
+			top:40px
+			color:#888
+			font-size:10px
+			cursor: pointer
+			z-index:-1
+		}
+	}
 
 	div#button{
 		background-color:white
 		display:block
-		margin:	20px
+		margin:	20px 0 20px 40px
 		height:40px
 		width:100px
 		box-shadow:0 1px 0 #ccc,0 2px 0 #c9c9c9,0 3px 0 #bbb,0 4px 0 #b9b9b9,0 5px 0 #aaa,0 6px 1px rgba(0,0,0,.1),0 0 5px rgba(0,0,0,.1),0 1px 3px rgba(0,0,0,.3),0 3px 5px rgba(0,0,0,.2),0 5px 10px rgba(0,0,0,.25),0 10px 10px rgba(0,0,0,.2),0 20px 20px rgba(0,0,0,.15);
@@ -60,6 +100,10 @@ div#buttons{
 		text-align:center
 		line-height:40px
 		float: left
+
+		&:nth-child(2){
+			margin-left:100px
+		}
 	}
 }
 
@@ -123,21 +167,21 @@ a#fork{
 // a#fork{}
 
 a#example{
-	right:240px
+	right:340px
 	background-color:orange
 
 }
 a#download1{
-	right:130px
+	right:230px
 	background-color:noty_ok
 }
 a#fork1{
-	right:20px
+	right:120px
 	background-color:purple
 }
 
 a#lego{
-	left:30px
+	left:140px
 }
 
 div#debug{

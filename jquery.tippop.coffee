@@ -87,9 +87,9 @@ $::tipPop = ( options = {} )->
 					offset 	: 15
 					# position priority
 					# for hover event
-					hoverPriority : [ 'top', 'bottom', 'left', 'right' ]
+					hoverPriority : [ 'top', 'bottom', 'left', 'right', 'top_left', 'top_right', 'bottom_left', 'bottom_right' ]
 					# for focus event
-					focusPriority : [ 'left', 'right', 'bottom', 'top' ]
+					focusPriority : [ 'left', 'right', 'bottom', 'top', 'top_left', 'top_right', 'bottom_left', 'bottom_right' ]
 					# callback on click
 					# hoverOnShow:(->)
 					# focusOnShow:(->)
@@ -127,6 +127,30 @@ $::tipPop = ( options = {} )->
 				main.e.listen main.m.settings.$that 
 
 				return this
+
+			getGSidesX:( $el )->
+
+					g_right = if main.m.settings.$tipPop.outerWidth() > $el.outerWidth()
+
+					then $el.offset().left + $el.outerWidth() + (Math.abs( $el.outerWidth() - main.m.settings.$tipPop.outerWidth() )/2)
+
+					else $el.offset().left + $el.outerWidth()
+
+					g_left = if main.m.settings.$tipPop.outerWidth() > $el.outerWidth()
+
+					then $el.offset().left - (Math.abs( $el.outerWidth() - main.m.settings.$tipPop.outerWidth() )/2)
+
+					else $el.offset().left
+
+					{g_right:g_right,g_left:g_left}
+
+			getGSidesY:( $el )->
+
+					g_top = ( $el.offset().top + $el.outerHeight()/2 ) - ( main.m.settings.$tipPop.outerHeight()/2 )
+
+					g_bottom = ( $el.offset().top + $el.outerHeight()/2 ) + ( main.m.settings.$tipPop.outerHeight()/2 )
+
+					{g_top:g_top,g_bottom:g_bottom}
 
 			getTipPop:()->
 
@@ -177,9 +201,15 @@ $::tipPop = ( options = {} )->
 
 				if opt.type is 'hover'
 
-				then callback = main.m.settings.hoverOnShow
+					callback = main.m.settings.hoverOnShow
 
-				else callback = main.m.settings.focusOnShow
+					tip = main.m.settings.$tipPop
+
+				else
+
+					callback = main.m.settings.focusOnShow
+
+					tip = opt.$elem.data().$el
 
 				fixedNormalize = 0
 
@@ -194,11 +224,12 @@ $::tipPop = ( options = {} )->
 				switch opt.titlePosition
 
 					when 'left'
+						console.log '---> left'
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 
 						# positioning tipPop arrow
-						norm.normTipPop.addClass('left')
+						norm.normTipPop.addClass( opt.titlePosition )
 						# positioning tipPop
 						.css
 								# top 
@@ -210,10 +241,12 @@ $::tipPop = ( options = {} )->
 
 
 					when 'right'
+						console.log '---> right'
+
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						norm.normTipPop.addClass('right')
+						norm.normTipPop.addClass( opt.titlePosition )
 						# positioning tipPop
 						.css
 								# top 
@@ -224,10 +257,12 @@ $::tipPop = ( options = {} )->
 						.stop(true,false).fadeIn(500,callback)
 
 					when 'top'
+						console.log '---> top'
+
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						norm.normTipPop.addClass('top')
+						norm.normTipPop.addClass( opt.titlePosition )
 						# positioning tipPop
 						.css
 								# top 
@@ -237,18 +272,86 @@ $::tipPop = ( options = {} )->
 						# show tipPop
 						.stop(true,false).fadeIn(500,callback)
 
+					when 'top_left'
+						console.log '---> top_left'
+
+						# get normalize => focus or hover event?
+						norm = main.o.getNormalize( opt.$elem, opt.type )
+						# positioning tipPop arrow
+						norm.normTipPop.addClass( opt.titlePosition )
+						# positioning tipPop
+						.css
+								# top 
+								top 	: fixedNormalizeY - norm.normH - 7
+								# left
+								left 	: opt.$elem.offset().left - tip.outerWidth()
+						# show tipPop
+						.stop(true,false).fadeIn(500,callback)
+
+					when 'top_right'
+						console.log '---> top_right'
+
+						# get normalize => focus or hover event?
+						norm = main.o.getNormalize( opt.$elem, opt.type )
+						# positioning tipPop arrow
+						norm.normTipPop.addClass( opt.titlePosition )
+						# positioning tipPop
+						.css
+								# top 
+								top 	: fixedNormalizeY - norm.normH - 7
+								# left
+								left 	: opt.$elem.offset().left + opt.$elem.outerWidth()
+						# show tipPop
+						.stop(true,false).fadeIn(500,callback)
+
 					when 'bottom'
+						console.log '---> bottom'
+
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						
 						# positioning tipPop arrow
-						norm.normTipPop.addClass('bottom')
+						norm.normTipPop.addClass( opt.titlePosition )
 						# positioning tipPop
 						.css
 								# top 
 								top 	: fixedNormalizeY + opt.$elem.outerHeight() + main.m.settings.offset 
 								# left
 								left 	: opt.$elem.offset().left + ( opt.$elem.outerWidth() / 2 ) - ( norm.normW / 2 ) - 5
+						# show tipPop
+						.stop(true,false).fadeIn(500,callback)
+
+					when 'bottom_left'
+						console.log '---> bottom_left'
+
+						# get normalize => focus or hover event?
+						norm = main.o.getNormalize( opt.$elem, opt.type )
+						
+						# positioning tipPop arrow
+						norm.normTipPop.addClass( opt.titlePosition )
+						# positioning tipPop
+						.css
+								# top 
+								top 	: fixedNormalizeY + opt.$elem.outerHeight()
+								# left
+								left 	: opt.$elem.offset().left - tip.outerWidth()
+						# show tipPop
+						.stop(true,false).fadeIn(500,callback)
+
+					when 'bottom_right'
+						console.log '---> bottom_right'
+
+						# get normalize => focus or hover event?
+						norm = main.o.getNormalize( opt.$elem, opt.type )
+						
+						# positioning tipPop arrow
+						norm.normTipPop.addClass( opt.titlePosition )
+						# positioning tipPop
+						.css
+								# top 
+								top 	: fixedNormalizeY + opt.$elem.outerHeight()
+								# left
+								left 	: opt.$elem.offset().left + opt.$elem.outerWidth()
 						# show tipPop
 						.stop(true,false).fadeIn(500,callback)
 
@@ -287,22 +390,29 @@ $::tipPop = ( options = {} )->
 
 			tryPosition:
 
-					left:( $this, type )->
+					left:( $el, type )->
 
-						norm = main.o.getNormalize $this, type 
+						console.log 'try left'
 
-						if $this.offset().left - norm.normW - main.m.settings.offset > main.m.settings.$window.scrollLeft()
+						norm = main.o.getNormalize $el, type 
+
+						g = main.o.getGSidesY $el
+
+						if ( $el.offset().left - norm.normW - main.m.settings.offset > main.m.settings.$window.scrollLeft() ) and (g.g_top > main.m.settings.$window.scrollTop() ) and (g.g_bottom < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight() )
 
 						then return 'left'
 
 						else return 'best'
 
-					right:( $this, type )->
+					right:( $el, type )->
 
-						norm = main.o.getNormalize $this, type 
+						console.log 'try right'
 
-						if $this.offset().left + $this.outerWidth() + main.m.settings.offset + norm.normW < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth()
-						# if main.o.isVisible $this
+						norm = main.o.getNormalize $el, type 
+
+						g = main.o.getGSidesY $el
+
+						if ( $el.offset().left + $el.outerWidth() + main.m.settings.offset + norm.normW < main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth() ) and (g.g_top > main.m.settings.$window.scrollTop() ) and (g.g_bottom < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight() )
 
 						then return 'right'
 
@@ -310,23 +420,91 @@ $::tipPop = ( options = {} )->
 
 					top:( $this, type )->
 
+						console.log 'try top'
+
 						norm = main.o.getNormalize $this, type 
 
-						if $this.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop()
-						# if main.o.isVisible $this
+						g = main.o.getGSidesX $this
 
+						if ( $this.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop() ) and ( g.g_left > main.m.settings.$window.scrollLeft() ) and ( g.g_right <  main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth() )
+						
 						then return 'top'
+
+						else return 'best'
+
+					top_left:( $el, type )->
+						
+						console.log 'try top left'
+
+						norm = main.o.getNormalize $el, type 
+
+						g = main.o.getGSidesX $el
+
+						if ( $el.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop() ) and (
+
+						 $el.offset().left - main.m.settings.$tipPop.outerWidth() >  main.m.settings.$window.scrollLeft() # + boneVojage_main.settings.$window.outerWidth()
+
+						 )
+						
+						then return 'top_left'
+
+						else return 'best'
+
+					top_right:( $el, type )->
+
+						console.log 'try top right'
+
+						norm = main.o.getNormalize $el, type 
+
+						g = main.o.getGSidesX $el
+
+						if ( $el.offset().top - norm.normH - main.m.settings.offset - 4 > main.m.settings.$window.scrollTop() ) and (
+
+						 $el.offset().left + $el.outerWidth() + main.m.settings.$tipPop.outerWidth() >  main.m.settings.$window.scrollLeft() # + boneVojage_main.settings.$window.outerWidth()
+
+						 )
+						
+						then return 'top_right'
 
 						else return 'best'
 
 					bottom:( $this, type )->
 
-						norm = main.o.getNormalize $this, type 
+						console.log 'try bottom'
 
-						if $this.offset().top +  $this.outerHeight() +  norm.normH - 10 + main.m.settings.offset < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight()
-						# if main.o.isVisible $this
+						norm = main.o.getNormalize $this, type
+
+						g = main.o.getGSidesX $this
+
+						if $this.offset().top +  $this.outerHeight() +  norm.normH - 10 + main.m.settings.offset < main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight() and ( g.g_left > main.m.settings.$window.scrollLeft() ) and ( g.g_right <  main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth() )
 
 						then return 'bottom'
+
+						else return 'best'
+
+					bottom_left:( $el, type )->
+
+						console.log 'try bottom_left'
+
+						if ( $el.offset().top + $el.outerHeight() + main.m.settings.offset + main.m.settings.$tipPop.outerHeight() ) < ( main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight() ) and (
+							
+									$el.offset().left - main.m.settings.$tipPop.outerWidth() >  main.m.settings.$window.scrollLeft() # + boneVojage_main.settings.$window.outerWidth()
+								)
+
+						then return 'bottom_left'
+
+						else return 'best'
+
+					bottom_right:( $el, type )->
+
+						console.log 'try bottom_right'
+
+						if ( $el.offset().top + $el.outerHeight() + main.m.settings.offset + main.m.settings.$tipPop.outerHeight() ) < ( main.m.settings.$window.scrollTop() + main.m.settings.$window.outerHeight() ) and (
+							
+									$el.offset().left + $el.offset().left <  main.m.settings.$window.scrollLeft() + main.m.settings.$window.outerWidth()
+								)
+
+						then return 'bottom_right'
 
 						else return 'best'
 
@@ -447,11 +625,6 @@ $::tipPop = ( options = {} )->
 							$this.data  'titleText', $this.attr('title')
 							# set tipPop text to title attr
 							main.m.settings.$tipPop.text($this.data().titleText)
-# issue!					# after hover right side element isue hack
-							.css 
-							# set element height to it's height
-								'height' 		: main.m.settings.$tipPop.height()
-
 
 							$parent =  $this.parent()
 
