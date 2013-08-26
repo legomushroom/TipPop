@@ -7,9 +7,7 @@ $.fn.fadeOutWithDelay = (delay)->
 
 window.main = {
 
-	# MVC MOVE model
 	m : 
-		
 		#vars to debug in console here
 		debug:{}
 		
@@ -28,7 +26,6 @@ window.main = {
 			main.makeProfile 		'fetchPost','Collapsed' 
 			main.makeProfileEnd 	'fetchPost','Collapsed'
 
-	# MVC MOVE operations
 	o :
 		init: ()->
 			#console log global debug object
@@ -52,7 +49,6 @@ window.main = {
 			main.makeProfileEnd('init');
 
 
-	# MVC MOVE views
 	v : 
 		console: (string,type)->
 			main.m.settings.console.prepend "<p class=\"#{(type||'ok')}\">#{string}<p>" 
@@ -86,7 +82,6 @@ window.main = {
 
 
 
-	# MVC MOVE events
 	e : 
 		listen: ()->
 			main.makeProfile 		'listen','Collapsed'

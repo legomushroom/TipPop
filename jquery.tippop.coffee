@@ -18,57 +18,48 @@ $::tipPop = ( options = {} )->
 			$parent.off 'mouseenter'
 			$parent.off 'mouseleave'
 			$parent.data 'hover', false
-			$parent.find('div#tippop').hide()
+			$parent.find('div#popup').hide()
 
 			main.m.settings.type = 'focus'
 
-		destroyFocus: ()->
-			$parent.find('div#tippop_focus').each (  )->
-				$.removeData $(@).data
+		# destroyFocus: ()->
+		# 	$parent.find('div#popup').each (  )->
+		# 		$.removeData $(@).data
 
 
-			main.m.settings.type = 'hover'
+		# 	main.m.settings.type = 'hover'
 
-			$parent.off 'focusin'
-			$parent.off 'focusout'
-			$parent.data 'focus', false
-			$parent.find('div#tippop_focus').hide()
+		# 	$parent.off 'focusin'
+		# 	$parent.off 'focusout'
+		# 	$parent.data 'focus', false
+		# 	$parent.find('div#popup').hide()
 			
 	main = 
-		# model
 		m : 
 			# state of plugin
 			state :
-				# text from title attr
-				titleText : ''
-				# text from data-bind attr
-				focusText : ''
-				# try position priotity count
 				tryPositionCount : 0
 
 			# settings
 			settings:{
 				# tipTop
 				$tipPop : ''
-				# parentElement
-				$that 	: ''
 				# offset from init element
 				offset 	: 0
 				# body
-				$body 	: $('body')
+				$body 	: $( document.body )
 				# window
 				$window : $(window)
 				# type => 	 title || focus || all
-				type 	: 'all'
+				# type 	: 'all'
 
 				positionPriority : 
 										hover : [ ]
 
-										focus : [ ]
-
+										# focus : [ ]
+										# 
 			}
 
-		# operations
 		o:
 			# initialization
 			init: ( options = {} )=>
@@ -77,10 +68,6 @@ $::tipPop = ( options = {} )->
 				defaults = 
 					# default title pop position => best || bottom	||   top 	|| left || right
 					hoverPosition: 'best'
-					# default focus pop position => best ||  left	||  right 	||  top	|| bottom
-					focusPosition: 'best'
-					# type => title || focus || all
-					type 	: 'all'
 					# delay before fadeOut
 					delay 	: 2000
 					# offset from init element
@@ -88,8 +75,6 @@ $::tipPop = ( options = {} )->
 					# position priority
 					# for hover event
 					hoverPriority : [ 'top', 'bottom', 'left', 'right', 'top_left', 'top_right', 'bottom_left', 'bottom_right' ]
-					# for focus event
-					focusPriority : [ 'left', 'right', 'bottom', 'top', 'top_left', 'top_right', 'bottom_left', 'bottom_right' ]
 					# callback on click
 					# hoverOnShow:(->)
 					# focusOnShow:(->)
@@ -106,25 +91,20 @@ $::tipPop = ( options = {} )->
 				# offset from init element
 				main.m.settings.offset 			= parseInt(options.offset,10)
 				# tipPop type
-				main.m.settings.type 			= options.type
+				# main.m.settings.type 			= options.type
 				# hover onshow callback
 				main.m.settings.hoverOnShow		= options.hoverOnShow
 				# hover onhide callback
 				main.m.settings.hoverOnHide		= options.hoverOnHide
-				# focus onshow callback
-				main.m.settings.focusOnShow		= options.focusOnShow
-				# hover onhide callback
-				main.m.settings.focusOnHide		= options.focusOnHide
-				# default focus pop position => best ||  left	||  right 	||  top	||  bottom
-				main.m.settings.focusPosition 	= options.focusPosition 
 				# default title pop position => best || bottom	||   top 	|| left ||	right
 				main.m.settings.titlePosition 	= options.hoverPosition 
 				# default hover priority
 				main.m.settings.positionPriority.hover = options.hoverPriority
 				# default focus priority
-				main.m.settings.positionPriority.focus = options.focusPriority
+				# main.m.settings.positionPriority.focus = options.focusPriority
 				# listen to plugin events
-				main.e.listen main.m.settings.$that 
+				# main.e.listen 		main.m.settings.$that 
+				main.e.listen 		main.m.settings.$body
 
 				return this
 
@@ -154,26 +134,16 @@ $::tipPop = ( options = {} )->
 
 			getTipPop:()->
 
-				$tipPop = $('body').find 'div#tippop'
+				$tipPop = $('body').find 'div#popup.widget'
 				
 				if  $tipPop.length is 0
 
-					$('body').append '<div id="tippop"></div>'
+					$('body').append '<div id="popup" class="widget"><div id="popup-content"></div><div id="arrow-holder"><div id="arrow"></div></div></div>'
 
-					$tipPop = $('div#tippop')
+					$tipPop = $('div#popup')
 
 				$tipPop
 
-			focusSetEl:( $this )->
-				if !$this.data().$el? 
-
-					main.m.settings.$body.append '<div id="tippop_focus" class=""></div>'
-					
-					$this.$el  = main.m.settings.$body.find('div#tippop_focus').last()
-
-					$this.data $el : $this.$el
-
-				else $this.$el =  $this.data().$el
 
 			getNormalize:( $this, type )->
 
@@ -182,34 +152,18 @@ $::tipPop = ( options = {} )->
 
 				normalizeTipPop = ''
 
-				if type is 'focus'
+				normalizeTipPop = main.m.settings.$tipPop.attr 'class', ''
 
-					normalizeTipPop = $this.$el.attr 'class', ''
-
-					normalizeW = $this.$el.outerWidth() - ( ( $this.$el.outerWidth() - $this.$el.width() )/4 )
-					normalizeH = $this.$el.outerHeight() - ( ( $this.$el.outerHeight() - $this.$el.height() )/4 )
-
-				else 
-					normalizeTipPop = main.m.settings.$tipPop.attr 'class', ''
-
-					normalizeW = main.m.settings.$tipPop.outerWidth()  - ( ( main.m.settings.$tipPop.outerWidth() - main.m.settings.$tipPop.width() )/4 )
-					normalizeH = main.m.settings.$tipPop.outerHeight() - ( ( main.m.settings.$tipPop.outerHeight() - main.m.settings.$tipPop.height() )/4 )
+				normalizeW = main.m.settings.$tipPop.outerWidth()  - ( ( main.m.settings.$tipPop.outerWidth() - main.m.settings.$tipPop.width() )/4 )
+				normalizeH = main.m.settings.$tipPop.outerHeight() - ( ( main.m.settings.$tipPop.outerHeight() - main.m.settings.$tipPop.height() )/4 )
 
 				{ normH : normalizeH, normW: normalizeW, normTipPop: normalizeTipPop}
 
 			makePosition:( opt )->
 
-				if opt.type is 'hover'
+				callback = main.m.settings.hoverOnShow
 
-					callback = main.m.settings.hoverOnShow
-
-					tip = main.m.settings.$tipPop
-
-				else
-
-					callback = main.m.settings.focusOnShow
-
-					tip = opt.$elem.data().$el
+				tip = main.m.settings.$tipPop
 
 				fixedNormalize = 0
 
@@ -229,7 +183,7 @@ $::tipPop = ( options = {} )->
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('middle right')
 						# positioning tipPop
 						.css
 								# top 
@@ -246,7 +200,8 @@ $::tipPop = ( options = {} )->
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('middle left')
+
 						# positioning tipPop
 						.css
 								# top 
@@ -262,7 +217,7 @@ $::tipPop = ( options = {} )->
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop #.addClass( opt.titlePosition )
 						# positioning tipPop
 						.css
 								# top 
@@ -278,13 +233,13 @@ $::tipPop = ( options = {} )->
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('right')
 						# positioning tipPop
 						.css
 								# top 
-								top 	: fixedNormalizeY - norm.normH - 7
+								top 	: fixedNormalizeY - norm.normH - 12
 								# left
-								left 	: opt.$elem.offset().left - tip.outerWidth()
+								left 	: opt.$elem.offset().left - tip.outerWidth() + 32
 						# show tipPop
 						.stop(true,false).fadeIn(500,callback)
 
@@ -294,13 +249,13 @@ $::tipPop = ( options = {} )->
 						# get normalize => focus or hover event?
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('left')
 						# positioning tipPop
 						.css
 								# top 
-								top 	: fixedNormalizeY - norm.normH - 7
+								top 	: fixedNormalizeY - norm.normH - 12
 								# left
-								left 	: opt.$elem.offset().left + opt.$elem.outerWidth()
+								left 	: opt.$elem.offset().left + opt.$elem.outerWidth() - 32
 						# show tipPop
 						.stop(true,false).fadeIn(500,callback)
 
@@ -311,7 +266,7 @@ $::tipPop = ( options = {} )->
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('top')
 						# positioning tipPop
 						.css
 								# top 
@@ -328,13 +283,13 @@ $::tipPop = ( options = {} )->
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('top right')
 						# positioning tipPop
 						.css
 								# top 
-								top 	: fixedNormalizeY + opt.$elem.outerHeight()
+								top 		: fixedNormalizeY + opt.$elem.outerHeight() + 12
 								# left
-								left 	: opt.$elem.offset().left - tip.outerWidth()
+								left 	: opt.$elem.offset().left - tip.outerWidth() + 32
 						# show tipPop
 						.stop(true,false).fadeIn(500,callback)
 
@@ -345,13 +300,13 @@ $::tipPop = ( options = {} )->
 						norm = main.o.getNormalize( opt.$elem, opt.type )
 						
 						# positioning tipPop arrow
-						norm.normTipPop.addClass( opt.titlePosition )
+						norm.normTipPop.addClass('top left')
 						# positioning tipPop
 						.css
 								# top 
-								top 	: fixedNormalizeY + opt.$elem.outerHeight()
+								top 	: fixedNormalizeY + opt.$elem.outerHeight() + 12
 								# left
-								left 	: opt.$elem.offset().left + opt.$elem.outerWidth()
+								left 	: opt.$elem.offset().left + opt.$elem.outerWidth() - 32
 						# show tipPop
 						.stop(true,false).fadeIn(500,callback)
 
@@ -363,17 +318,17 @@ $::tipPop = ( options = {} )->
 
 							main.o.makePosition
 										$elem 			: opt.$elem
-										titlePosition	: main.o.tryPosition[main.m.settings.positionPriority[opt.type][i]]( opt.$elem, opt.type )
+										titlePosition		: main.o.tryPosition[main.m.settings.positionPriority[opt.type][i]]( opt.$elem, opt.type )
 										type 			: opt.type 
-										positionType 	: opt.positionType
+										positionType 		: opt.positionType
 
 						else 
 							# position found
 							main.o.makePosition
 										$elem 			: opt.$elem
-										titlePosition 	: main.m.settings.positionPriority[opt.type][0]
+										titlePosition 		: main.m.settings.positionPriority[opt.type][0]
 										type 			: opt.type
-										positionType	: opt.positionType
+										positionType		: opt.positionType
 				opt.$elem
 
 
@@ -511,85 +466,15 @@ $::tipPop = ( options = {} )->
 		e : 
 			listen:( )->
 				
-				if ( main.m.settings.type is 'hover' ) or ( main.m.settings.type is 'all' )
-					
-					if !main.m.settings.$that.data().hover?
-						main.m.settings.$that.data 'hover', false
-					
-					if !main.m.settings.$that.data().hover
-						# listem for mouseenter event
-						main.m.settings.$that.on 'mouseenter', '*[title]', main.e.mouseEnterEvent
-						main.m.settings.$that.data 'hover', true
+				if !main.m.settings.$that.data().hover?
 
-				if ( main.m.settings.type is 'focus' ) or ( main.m.settings.type is 'all' )
-
-
-					if !main.m.settings.$that.data().focus?
-						main.m.settings.$that.data 'focus', false
-
-
-					if !main.m.settings.$that.data().focus
-						# listem for focus event
-						main.m.settings.$that.on 'focusin', '*[data-focus]', main.e.focusInEvent
-						main.m.settings.$that.data 'focus', true
-
-
-
-			focusInEvent:( )->
-
-				# console.time "focusInEvent takes"
-
-				$this = $ this
-
-				# reset tryPosition priority
-				main.m.state.tryPositionCount = 0
-
-				# hide tipTop
-				main.m.settings.$tipPop.stop().fadeOut(0, main.m.settings.hoverOnHide )
-
-				$this.data allowPopOnHover : false
-
-				# set element tipPop element
-				main.o.focusSetEl $this
-
-				# element has not empty title addttribute
-				if $this.attr('data-focus')?
-					# set tipPop text to title attribute
-					main.m.state.focusText = $this.attr 'data-focus'
-					# set tipPop text to title attr
-					$this.$el.text main.m.state.focusText
-
-					$parent =  $this.parent()
-
-					fixed = $this.css 'position'
-					if fixed is 'static' then fixed = 'absolute'
-
-					#set parents position 'fixed' or 'absolute'
-					$this.$el.css 'position': fixed 
-
-					# remove title from element
-					$this.attr 'title', ''
-
-					# positioning tipPop
-					main.o.makePosition
-
-									$elem 			: $this
-									titlePosition 	: main.m.settings.focusPosition
-									type 			: 'focus'
-									positionType 	: fixed 
-									$parent 		: $parent
-
-					$this.on 'focusout', ()=>
-
-						$this.attr 'data-focus', main.m.state.focusText
+					main.m.settings.$that.data 'hover', false
 				
-						$this.$el.stop().fadeOut(0, main.m.settings.focusOnHide )
+				if !main.m.settings.$that.data().hover
+					
+					main.m.settings.$that.on 'mouseenter', '.likes-popup', main.e.mouseEnterEvent
 
-						$this.data allowPopOnHover : true
-
-				else $this.$el.stop().fadeOut(0, main.m.settings.focusOnHide )
-			
-				# console.timeEnd ("focusInEvent takes")
+					main.m.settings.$that.data 'hover', true
 
 
 			mouseLeaveEvent:( )->
@@ -604,9 +489,7 @@ $::tipPop = ( options = {} )->
 
 			mouseEnterEvent:()->
 
-					# console.time 'mouseEnterEvent takes'
-
-					$this = $ this
+					$this = $ @
 
 					if !$this.data().allowPopOnHover?
 						$this.data allowPopOnHover : 'true'
@@ -624,7 +507,7 @@ $::tipPop = ( options = {} )->
 							# set tipPop text to title attribute
 							$this.data  'titleText', $this.attr('title')
 							# set tipPop text to title attr
-							main.m.settings.$tipPop.text($this.data().titleText)
+							main.m.settings.$tipPop.find('#popup-content').text($this.data().titleText)
 
 							$parent =  $this.parent()
 
@@ -650,10 +533,10 @@ $::tipPop = ( options = {} )->
 							main.o.makePosition 
 										
 										$elem 			: $this
-										titlePosition 	: main.m.settings.titlePosition
+										titlePosition 		: main.m.settings.titlePosition
 										type 			: 'hover'
-										positionType 	: fixed 
-										$parent 		: $parent
+										positionType 		: fixed 
+										$parent 			: $parent
 
 							$this.on('mouseleave',main.e.mouseLeaveEvent)
 
